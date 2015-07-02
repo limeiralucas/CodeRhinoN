@@ -11,7 +11,8 @@ io.on('connection', function(socket){
 	console.log("client connected");
 
 	socket.on('send_program', function(filename){
-		child = exec(os.tmpdir() + '/nbc -d ' + os.tmpdir() + '/' + filename, function(error, stdout, stderr){
+		console.log("Command: " + os.tmpdir() + '/nbc.exe -d ' + filename);
+		child = exec('cd ' + os.tmpdir() + ' && ' + os.tmpdir() + '/nbc.exe -d '+ filename, function(error, stdout, stderr){
 			console.log('stdout: ' + stdout);
 			console.log('stderr: ' + stderr);
 			if(error !== null){
@@ -34,12 +35,12 @@ io.on('connection', function(socket){
 				socket.emit('nbc_ok');
 				console.log("Nbc exists");
 			} else {
-				httpreq.get("http://www.roboeduc.com.br/nbc_linux_x64/nbc", {binary: true}, function(err, res){
+				httpreq.get("http://www.roboeduc.com.br/CodeRhino/nbc.exe", {binary: true}, function(err, res){
 					if(err){
 						socket.emit('nbc_downloadError');
 						console.log("Cannot download nbc");
 					} else {
-						fs.writeFile(os.tmpdir() + '/nbc', res.body, function(err){
+						fs.writeFile(os.tmpdir() + '/nbc.exe', res.body, function(err){
 							if(err){
 								socket.emit('nbc_downloadError');
 								console.log("Connot write nbc file");
