@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+	<script>
+		var socket = io.connect('http://localhost:3000');
+		console.log("try to connect");
+		socket.on('connect', function(){
+			socket.emit('re_send_program', '');
+			console.log("connected");
+		});
+	</script>
+</body>
+</html>
