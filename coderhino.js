@@ -10,43 +10,62 @@ var child;
 io.on('connection', function(socket){
 	console.log("client connected");
 
-	socket.on('send_program', function(filename){
+	socket.on('send_programNxt', function(filename){
 		console.log("Command: " + os.tmpdir() + '/nbc.exe -d ' + filename);
 		child = exec('cd ' + os.tmpdir() + ' && ' + os.tmpdir() + '/nbc.exe -d '+ filename, function(error, stdout, stderr){
 			console.log('stdout: ' + stdout);
 			console.log('stderr: ' + stderr);
 			if(error !== null){
 				console.log('exec error: ' + error);
-				socket.emit("send_programError");
+				socket.emit("send_programNxtError");
 			} else if(stderr){
-				socket.emit("send_programError");
+				socket.emit("send_programNxtError");
 				console.log("Cannot send program");
 			} else {
-				socket.emit("send_programOk");
+				socket.emit("send_programNxtOk");
 				console.log("Program sent");
 			}
 		});
 	});
 
-	socket.on('nbc_exists', function(){
-		console.log('Verifying if nbc exists');
-		fs.stat(os.tmpdir()+'/nbc', function(err, stat){
-			if(err == null){
-				socket.emit('nbc_ok');
-				console.log("Nbc exists");
+	socket.on('download', function(url, filename){
+		httpreq.get(url, {binary: true}, function(err, res){
+			if(err){
+				socket.emit('file_downloadError', filename);
+				console.log("Cannot download "+filename);
 			} else {
-				httpreq.get("http://www.roboeduc.com.br/CodeRhino/nbc.exe", {binary: true}, function(err, res){
+				fs.writeFile(os.tmpdir() + '/' + filename, res.body, function(err){
 					if(err){
-						socket.emit('nbc_downloadError');
-						console.log("Cannot download nbc");
+						socket.emit('file_downloadError', filename);
+						console.log("Cannot download " + filename);
 					} else {
-						fs.writeFile(os.tmpdir() + '/nbc.exe', res.body, function(err){
+						socket.emit('file_downloaded', filename);
+						console.log(filename + " downloaded");
+					}
+				});
+			}
+		});
+	});
+
+	socket.on('download_ifNotExists', function(url, filename){
+		console.log("Verifying if " + filename + " exists");
+		fs.stat(os.tmpdir() + '/' + filename, function(err, stat){
+			if(err == null){
+				socket.emit('file_downloaded', filename);
+				console.log(filename + ' exists. Not downloaded.');
+			} else {
+				httpreq.get(url, {binary: true}, function(err, res){
+					if(err){
+						socket.emit('file_downloadError', filename);
+						console.log("Cannot download " + filename);
+					} else {
+						fs.writeFile(os.tmpdir() + '/' + filename, res.body, function(err){
 							if(err){
-								socket.emit('nbc_downloadError');
-								console.log("Connot write nbc file");
+								socket.emit('file_downloadError', filename);
+								console.log("Connot write " + filename + "to filesystem");
 							} else {
-								socket.emit('nbc_ok');
-								console.log("Nbc downloaded");
+								socket.emit('file_downloaded', filename);
+								console.log(filename + " downloaded");
 							}
 						});
 					}
@@ -55,19 +74,19 @@ io.on('connection', function(socket){
 		});
 	});
 
-	socket.on('program_download', function(program, filename){
-		fs.writeFile(os.tmpdir() + '/' + filename, program, function(err){
+	socket.on('write_tmpdir', function(content, filename){
+		fs.writeFile(os.tmpdir() + '/' + filename, content, function(err){
 			if(err){
-				socket.emit('program_downloadError');
-				console.log('Connot write program file');
+				socket.emit('content_notWritten', filename);
+				console.log('Connot write content to ' + filename);
 			} else {
-				socket.emit('program_ok');
-				console.log('Program downloaded');
+				socket.emit('content_written', filename);
+				console.log(filename + ' written');
 			}
 		});
 	});
 
 	socket.on('disconnect', function(){
-		console.log('client disconnected');
+		console.log('Client disconnected');
 	});
 });
