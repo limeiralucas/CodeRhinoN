@@ -1,0 +1,25 @@
+{
+	"name": "NodeRhino",
+	"version": "0.0.1a",
+	"main": "index.html",
+	"node-main": "coderhinon.js",
+	"single-instance": true,
+	"window": {
+		"title": "NodeRhino",
+		"position": "center",
+		"show_in_taskbar": true,
+		"toolbar": false,
+		"frame": false,
+		"width": 800,
+		"height": 500,
+		"min_width": 400,
+		"min_height": 200,
+		"max_width": 800,
+		"max_height": 600
+	},
+	"maintainers":[{
+		"name": "Lucas Limeira",
+		"email": "lucasalveslm@gmail.com",
+		"web": "http://github.com/lucasalveslm"
+	}]
+}
