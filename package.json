@@ -1,21 +1,18 @@
 {
-	"name": "NodeRhino",
+	"name": "CodeRhinoN",
 	"version": "0.0.1a",
 	"main": "index.html",
-	"node-main": "coderhinon.js",
 	"single-instance": true,
 	"window": {
 		"title": "NodeRhino",
 		"position": "center",
-		"show_in_taskbar": true,
 		"toolbar": false,
-		"frame": false,
-		"width": 800,
-		"height": 500,
+		"width": 400,
+		"height": 400,
 		"min_width": 400,
-		"min_height": 200,
-		"max_width": 800,
-		"max_height": 600
+		"min_height": 400,
+		"max_width": 400,
+		"max_height": 400
 	},
 	"maintainers":[{
 		"name": "Lucas Limeira",

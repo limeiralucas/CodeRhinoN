@@ -1,10 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>NodeRhino</title>
+	<meta charset="utf-8">
+	<title>CodeRhinoN</title>
+	<script src="./coderhinon.js"></script>
 </head>
 <body>
-	<h1>NodeRhino is running</h1>
-	Using node.js <script>document.write(process.version)</script>
+	<script>
+		var gui = require('nw.gui');
+		var win = gui.Window.get();
+
+		win.hide();
+
+		var tray = new gui.Tray({
+			title: 'CodeRhinoN',
+			icon: 'icon.png'
+		});
+
+		tray.tooltip = "CodeRhinoN";
+
+		win.on('minimize', function(){
+			this.hide();
+		});
+
+		tray.on('click', function(){
+			win.show();
+		});
+	</script>
+	<style>
+		body {
+			background: #333;
+			color: white;
+		}
+
+		#logo {
+			position: absolute;
+			top: 10%;
+			left: 50%;
+			width: 250px;
+			height: 145px;
+			margin-left: -122px;
+		}
+	</style>
+	<img id="logo" src="icon.png">
+	<span id="version">Version 0.0.1a</span>
 </body>
 </html>

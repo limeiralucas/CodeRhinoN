@@ -11,7 +11,6 @@ io.on('connection', function(socket){
 	console.log("client connected");
 
 	socket.on('send_programNxt', function(filename){
-		console.log("Command: " + os.tmpdir() + '/nbc.exe -d ' + filename);
 		child = exec('cd ' + os.tmpdir() + ' && ' + os.tmpdir() + '/nbc.exe -d '+ filename, function(error, stdout, stderr){
 			console.log('stdout: ' + stdout);
 			console.log('stderr: ' + stderr);
