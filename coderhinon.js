@@ -1,4 +1,4 @@
-const PORT=3000;
+const PORT=9222;
 
 var io = require('socket.io')(PORT);
 var exec = require('child_process').exec;
@@ -22,6 +22,23 @@ io.on('connection', function(socket){
 				console.log("Cannot send program");
 			} else {
 				socket.emit("send_programNxtOk");
+				console.log("Program sent");
+			}
+		});
+	});
+
+	socket.on('sendProgramArduino', function(port){
+		child = exec('cd ' + os.tmpdir() + ' && ' + os.tmpdir() + '/avrdude.exe -F -V -c arduino -p ATMEGA328P -P ' + port + ' 115200 - U flash:w:' + os.tmpdir() + filename + ":i", function(error, stdout, stderr){
+			console.log('stdout: ' + stdout);
+			console.log('stderr: ' + stderr);
+			if(error !== null){
+				console.log('exec error: ' + error);
+				socket.emit("send_programArduinoError");
+			} else if(stderr){
+				socket.emit("send_programArduinoError");
+				console.log("Connot send program");
+			} else {
+				socket.emit("send_programArduinoOk");
 				console.log("Program sent");
 			}
 		});
