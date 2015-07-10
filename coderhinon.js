@@ -27,16 +27,22 @@ io.on('connection', function(socket){
 		});
 	});
 
-	socket.on('sendProgramArduino', function(port){
-		child = exec('cd ' + os.tmpdir() + ' && ' + os.tmpdir() + '/avrdude.exe -F -V -c arduino -p ATMEGA328P -P ' + port + ' 115200 - U flash:w:' + os.tmpdir() + filename + ":i", function(error, stdout, stderr){
+	socket.on('send_programArduino', function(port, filename){
+		console.log("Sending...");
+		child = exec('cd ' + os.tmpdir() + ' && ' + os.tmpdir() + '/avrdude.exe -F -V -c arduino -p ATMEGA328P -P ' + port + ' 115200 -U flash:w:' + os.tmpdir() + "/" + filename + ":i", function(error, stdout, stderr){
 			console.log('stdout: ' + stdout);
 			console.log('stderr: ' + stderr);
 			if(error !== null){
 				console.log('exec error: ' + error);
 				socket.emit("send_programArduinoError");
 			} else if(stderr){
-				socket.emit("send_programArduinoError");
-				console.log("Connot send program");
+				if(stderr.indexOf("error") > -1){
+					socket.emit("send_programArduinoError");
+					console.log("Connot send program");
+				} else {
+					socket.emit("send_programArduinoOk");
+					console.log("Program sent");
+				}
 			} else {
 				socket.emit("send_programArduinoOk");
 				console.log("Program sent");
