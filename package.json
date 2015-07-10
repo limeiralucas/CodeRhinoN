@@ -1,37 +1,23 @@
 {
-  "name": "CodeRhinoN",
-  "version": "0.0.1a",
-  "main": "index.html",
-  "single-instance": true,
-  "window": {
-    "title": "NodeRhino",
-    "icon": "icon.png",
-    "position": "center",
-    "toolbar": false,
-    "width": 400,
-    "height": 400,
-    "min_width": 400,
-    "min_height": 400,
-    "max_width": 400,
-    "max_height": 400
-  },
-  "maintainers": [
-    {
-      "name": "Lucas Limeira",
-      "email": "lucasalveslm@gmail.com",
-      "web": "http://github.com/lucasalveslm"
-    }
-  ],
-  "platformOverrides": {
-    "win32": {
-      "winIco": "icon.png"
-    },
-    "win64": {
-      "winIco": "icon.png"
-    }
-  },
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-node-webkit-builder": "^1.0.2"
-  }
+	"name": "CodeRhinoN",
+	"version": "0.0.1a",
+	"main": "index.html",
+	"single-instance": true,
+	"window": {
+		"title": "NodeRhino",
+		"position": "center",
+		"toolbar": false,
+		"width": 400,
+		"height": 400,
+		"min_width": 400,
+		"min_height": 400,
+		"max_width": 400,
+		"max_height": 400,
+		"icon": "icon.ico"
+	},
+	"maintainers":[{
+		"name": "Lucas Limeira",
+		"email": "lucasalveslm@gmail.com",
+		"web": "http://github.com/lucasalveslm"
+	}]
 }
