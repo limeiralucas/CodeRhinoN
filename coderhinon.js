@@ -2,6 +2,7 @@ const PORT=9222;
 
 var io = require('socket.io')(PORT);
 var exec = require('child_process').exec;
+var serialPort = require("serialPort");
 var os = require('os');
 var fs = require('fs');
 var httpreq = require('httpreq');
@@ -9,6 +10,16 @@ var child;
 
 io.on('connection', function(socket){
 	console.log("client connected");
+
+	socket.on('list_serialPorts', function(){
+		var portsList = new Array();
+		serialPort.list(function(err, ports){
+			ports.forEach(function(port){
+				portsList.push(port);
+			});
+		});
+		console.log(portsList);
+	});
 
 	socket.on('send_programNxt', function(filename){
 		child = exec('cd ' + os.tmpdir() + ' && ' + os.tmpdir() + '/nbc.exe -d '+ filename, function(error, stdout, stderr){
