@@ -2,10 +2,9 @@
 	"name": "CodeRhinoN",
 	"version": "0.0.1a",
 	"main": "index.html",
-	"main-node": "coderhinon.js",
 	"single-instance": true,
 	"window": {
-		"title": "NodeRhino",
+		"title": "CodeRhinoN",
 		"position": "center",
 		"toolbar": false,
 		"width": 400,

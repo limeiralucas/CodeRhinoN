@@ -12,13 +12,14 @@ io.on('connection', function(socket){
 	console.log("client connected");
 
 	socket.on('list_serialPorts', function(){
-		var portsList = new Array();
 		serialPort.list(function(err, ports){
-			ports.forEach(function(port){
-				portsList.push(port);
-			});
+			if(err){
+				console.log(err);
+			} else {
+				console.log("Returning ports");
+				socket.emit('serialPorts_listed', ports);
+			}
 		});
-		console.log(portsList);
 	});
 
 	socket.on('send_programNxt', function(filename){
